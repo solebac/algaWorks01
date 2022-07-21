@@ -34,12 +34,9 @@ public class ClienteController {
 	
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
-		Optional<Cliente> obj = clienteRepository.findById(clienteId);
-		//return obj.orElse(null); sempre retorno 200ok|Isso é ruim
-		if (obj.isPresent()) {
-			return ResponseEntity.ok(obj.get());
-		}
-		return ResponseEntity.notFound().build();
+		return clienteRepository.findById(clienteId)
+				.map(client -> ResponseEntity.ok(client))
+				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	
