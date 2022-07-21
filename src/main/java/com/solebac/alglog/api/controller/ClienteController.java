@@ -19,8 +19,8 @@ public class ClienteController {
 
 	@GetMapping(value = "/clientes")
 	public List<Cliente> lista() {
-		Cliente c1 = new Cliente(1L, "Flavio", "solebac@hotmail.com", "1234-12355");
-		Cliente c2 = new Cliente(2L, "Felipe", "solebacfrs@hotmail.com", "1234-12355");
-		return Arrays.asList(c1, c2);
+		//Codigo JPQL
+		return manager.createQuery("from Cliente", Cliente.class)
+				.getResultList();
 	}
 }
