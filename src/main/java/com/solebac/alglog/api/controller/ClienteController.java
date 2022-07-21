@@ -15,8 +15,14 @@ import com.solebac.alglog.api.controller.domain.model.repositories.ClienteReposi
 @RestController
 public class ClienteController {
 	
-	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	public ClienteController(ClienteRepository clienteRepository) {
+		//Simulando @Autowired
+		this.clienteRepository = clienteRepository;
+	}
+
+
 
 	@GetMapping(value = "/clientes")
 	public List<Cliente> lista() {
