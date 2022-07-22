@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solebac.alglog.api.controller.domain.model.Entrega;
+import com.solebac.alglog.api.controller.domain.model.dto.DestinatarioModelDto;
+import com.solebac.alglog.api.controller.domain.model.dto.EntregaModelDto;
 import com.solebac.alglog.api.controller.domain.model.repositories.EntregaRepository;
 import com.solebac.alglog.api.controller.domain.services.SolicitacaoEntregaService;
 
@@ -44,10 +46,31 @@ public class EntregaController {
 		return entregaRepository.findAll();
 	}
 	
-	@GetMapping("/{entregaId}")
+	/*@GetMapping("/{entregaId}")
 	public ResponseEntity<Entrega> buscar(@PathVariable Long entregaId){
 		return entregaRepository.findById(entregaId)
 				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
+	}*/
+	@GetMapping("/{entregaId}")
+	public ResponseEntity<EntregaModelDto> buscar(@PathVariable Long entregaId){
+		return entregaRepository.findById(entregaId)
+				.map(entrega -> {
+					EntregaModelDto obj = new EntregaModelDto();
+					obj.setId(entrega.getId());
+					obj.setNomeCliente(entrega.getCliente().getNome());
+					obj.setDestinario(new DestinatarioModelDto());
+					obj.getDestinario().setNome(entrega.getDestinatario().getNome());
+					obj.getDestinario().setLogradouro(entrega.getDestinatario().getLogradouro());
+					obj.getDestinario().setBairro(entrega.getDestinatario().getBairro());
+					obj.getDestinario().setNumero(entrega.getDestinatario().getNumero());
+					obj.getDestinario().setComplemento(entrega.getDestinatario().getLogradouro());
+					obj.setTaxa(entrega.getTaxa());
+					obj.setStatus(entrega.getStatus());
+					obj.setDataPedido(entrega.getDataPedido());
+					obj.setDataFinalizacao(entrega.getDataFinalizacao());
+					return ResponseEntity.ok(obj);
+				})
 				.orElse(ResponseEntity.notFound().build());
 	}
 }
