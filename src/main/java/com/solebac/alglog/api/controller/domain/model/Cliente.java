@@ -7,11 +7,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
+
+import com.solebac.alglog.api.controller.domain.ValidationGroups;
 
 @Entity
 public class Cliente {
 	
+	//@NotNull(groups = Default.class) Alterar para implementação propria
+	@NotNull(groups = ValidationGroups.ClienteId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;

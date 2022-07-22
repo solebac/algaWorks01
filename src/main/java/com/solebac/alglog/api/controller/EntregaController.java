@@ -1,5 +1,7 @@
 package com.solebac.alglog.api.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,7 @@ public class EntregaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Entrega solicitar(@RequestBody Entrega entrega) {
+	public Entrega solicitar(@Valid @RequestBody Entrega entrega) {
 		return entregaservice.solicitar(entrega);
 	}
 }

@@ -11,9 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.solebac.alglog.api.controller.domain.ValidationGroups;
+import com.sun.istack.NotNull;
 
 @Entity
 public class Entrega {
@@ -22,11 +27,15 @@ public class Entrega {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Valid
+	@ConvertGroup(from = Default.class, to = ValidationGroups.ClienteId.class)
+	@NotNull
 	@ManyToOne
 	private Cliente cliente;
 	
 	@Embedded
 	private Destinatario destinatario;
+	@NotNull
 	private BigDecimal taxa;
 	
 	//Propriedades Calculadas
