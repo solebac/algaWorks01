@@ -25,6 +25,8 @@ public class Entrega {
 	@Embedded
 	private Destinatario destinatario;
 	private BigDecimal taxa;
+	
+	//Propriedades Calculadas
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega status;
 	private LocalDateTime dataPedido;
