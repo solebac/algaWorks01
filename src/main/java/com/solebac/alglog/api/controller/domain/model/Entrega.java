@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 public class Entrega {
 	
@@ -27,9 +30,12 @@ public class Entrega {
 	private BigDecimal taxa;
 	
 	//Propriedades Calculadas
+	@JsonProperty(access = Access.READ_ONLY)
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega status;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime dataPedido;
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime dataFinalizacao;
 	
 	

@@ -12,6 +12,11 @@ import com.solebac.alglog.api.controller.domain.model.repositories.ClienteReposi
 public class CatalagoClienteService {
 
 	private ClienteRepository clienteRepository;
+	
+	public Cliente buscar(Long clienteId) {
+		return clienteRepository.findById(clienteId)
+				.orElseThrow(() -> new NegocioException("Cliente not found."));
+	}
 
 	public CatalagoClienteService(ClienteRepository clienteRepository) {
 		this.clienteRepository = clienteRepository;

@@ -16,21 +16,18 @@ import com.solebac.alglog.api.controller.domain.model.repositories.EntregaReposi
 @Service
 public class SolicitacaoEntregaService {
 	private EntregaRepository entregaRepository;
-	private ClienteRepository clienteRepository;
+	private CatalagoClienteService catalagoClienteService;
 
-	public SolicitacaoEntregaService(EntregaRepository entregaRepository, ClienteRepository clienteRepository) {
-		super();
+	public SolicitacaoEntregaService(EntregaRepository entregaRepository,
+			CatalagoClienteService catalagoClienteService) {
 		this.entregaRepository = entregaRepository;
-		this.clienteRepository = clienteRepository;
+		this.catalagoClienteService = catalagoClienteService;
 	}
-
-
 
 	@Transactional
 	public Entrega solicitar(Entrega entrega) {
 		
-		Cliente cliente = clienteRepository.findById(entrega.getCliente().getId())
-				.orElseThrow(() -> new NegocioException("Cliente not found."));
+		Cliente cliente = catalagoClienteService.buscar(entrega.getCliente().getId());
 		
 		entrega.setCliente(cliente);
 		entrega.setStatus(StatusEntrega.PENDENTE);
