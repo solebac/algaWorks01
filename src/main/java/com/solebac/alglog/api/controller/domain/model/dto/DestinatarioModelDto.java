@@ -1,7 +1,5 @@
 package com.solebac.alglog.api.controller.domain.model.dto;
 
-import javax.persistence.Embeddable;
-
 public class DestinatarioModelDto {
 
 	private String nome;

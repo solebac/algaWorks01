@@ -10,7 +10,7 @@ import com.solebac.alglog.api.controller.domain.model.StatusEntrega;
 public class EntregaModelDto {
 	private Long id;
 	private String nomeCliente;
-	private DestinatarioModelDto destinario;
+	private DestinatarioModelDto destinatario;
 	private BigDecimal taxa;
 	private StatusEntrega status;
 	private OffsetDateTime dataPedido;
@@ -27,11 +27,12 @@ public class EntregaModelDto {
 	public void setNomeCliente(String nomeCliente) {
 		this.nomeCliente = nomeCliente;
 	}
-	public DestinatarioModelDto getDestinario() {
-		return destinario;
+	
+	public DestinatarioModelDto getDestinatario() {
+		return destinatario;
 	}
-	public void setDestinario(DestinatarioModelDto destinario) {
-		this.destinario = destinario;
+	public void setDestinatario(DestinatarioModelDto destinatario) {
+		this.destinatario = destinatario;
 	}
 	public BigDecimal getTaxa() {
 		return taxa;

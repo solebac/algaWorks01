@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,11 +29,14 @@ public class EntregaController {
 	private SolicitacaoEntregaService entregaservice;
 	
 	private EntregaRepository entregaRepository;
+	
+	private ModelMapper modelMapper;
 
-	public EntregaController(SolicitacaoEntregaService entregaservice, EntregaRepository entregaRepository) {
-		super();
+	public EntregaController(SolicitacaoEntregaService entregaservice, EntregaRepository entregaRepository,
+			ModelMapper modelMapper) {
 		this.entregaservice = entregaservice;
 		this.entregaRepository = entregaRepository;
+		this.modelMapper = modelMapper;
 	}
 
 	@PostMapping
@@ -56,19 +60,7 @@ public class EntregaController {
 	public ResponseEntity<EntregaModelDto> buscar(@PathVariable Long entregaId){
 		return entregaRepository.findById(entregaId)
 				.map(entrega -> {
-					EntregaModelDto obj = new EntregaModelDto();
-					obj.setId(entrega.getId());
-					obj.setNomeCliente(entrega.getCliente().getNome());
-					obj.setDestinario(new DestinatarioModelDto());
-					obj.getDestinario().setNome(entrega.getDestinatario().getNome());
-					obj.getDestinario().setLogradouro(entrega.getDestinatario().getLogradouro());
-					obj.getDestinario().setBairro(entrega.getDestinatario().getBairro());
-					obj.getDestinario().setNumero(entrega.getDestinatario().getNumero());
-					obj.getDestinario().setComplemento(entrega.getDestinatario().getLogradouro());
-					obj.setTaxa(entrega.getTaxa());
-					obj.setStatus(entrega.getStatus());
-					obj.setDataPedido(entrega.getDataPedido());
-					obj.setDataFinalizacao(entrega.getDataFinalizacao());
+					EntregaModelDto obj = modelMapper.map(entrega, EntregaModelDto.class);
 					return ResponseEntity.ok(obj);
 				})
 				.orElse(ResponseEntity.notFound().build());
