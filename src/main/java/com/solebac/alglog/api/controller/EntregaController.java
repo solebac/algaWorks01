@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solebac.alglog.api.assembler.EntregaAssembler;
 import com.solebac.alglog.api.controller.domain.model.Entrega;
-import com.solebac.alglog.api.controller.domain.model.dto.DestinatarioModelDto;
 import com.solebac.alglog.api.controller.domain.model.dto.EntregaModelDto;
 import com.solebac.alglog.api.controller.domain.model.repositories.EntregaRepository;
 import com.solebac.alglog.api.controller.domain.services.SolicitacaoEntregaService;
@@ -30,24 +29,25 @@ public class EntregaController {
 	
 	private EntregaRepository entregaRepository;
 	
-	private ModelMapper modelMapper;
+	private EntregaAssembler entregaAssembler;
 
 	public EntregaController(SolicitacaoEntregaService entregaservice, EntregaRepository entregaRepository,
-			ModelMapper modelMapper) {
+			EntregaAssembler entregaAssembler) {
+		super();
 		this.entregaservice = entregaservice;
 		this.entregaRepository = entregaRepository;
-		this.modelMapper = modelMapper;
+		this.entregaAssembler = entregaAssembler;
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Entrega solicitar(@Valid @RequestBody Entrega entrega) {
-		return entregaservice.solicitar(entrega);
+	public EntregaModelDto solicitar(@Valid @RequestBody Entrega entrega) {
+		return entregaAssembler.toModel(entregaservice.solicitar(entrega));
 	}
 	
 	@GetMapping
-	public List<Entrega> listar(){
-		return entregaRepository.findAll();
+	public List<EntregaModelDto> listar(){
+		return entregaAssembler.toCollectionModel(entregaRepository.findAll());
 	}
 	
 	/*@GetMapping("/{entregaId}")
@@ -60,7 +60,7 @@ public class EntregaController {
 	public ResponseEntity<EntregaModelDto> buscar(@PathVariable Long entregaId){
 		return entregaRepository.findById(entregaId)
 				.map(entrega -> {
-					EntregaModelDto obj = modelMapper.map(entrega, EntregaModelDto.class);
+					EntregaModelDto obj = entregaAssembler.toModel(entrega);
 					return ResponseEntity.ok(obj);
 				})
 				.orElse(ResponseEntity.notFound().build());
