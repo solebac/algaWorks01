@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solebac.alglog.api.assembler.EntregaAssembler;
 import com.solebac.alglog.api.controller.domain.model.Entrega;
+import com.solebac.alglog.api.controller.domain.model.dto.EntregaInput;
 import com.solebac.alglog.api.controller.domain.model.dto.EntregaModelDto;
 import com.solebac.alglog.api.controller.domain.model.repositories.EntregaRepository;
 import com.solebac.alglog.api.controller.domain.services.SolicitacaoEntregaService;
@@ -41,8 +41,10 @@ public class EntregaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public EntregaModelDto solicitar(@Valid @RequestBody Entrega entrega) {
-		return entregaAssembler.toModel(entregaservice.solicitar(entrega));
+	public EntregaModelDto solicitar(@Valid @RequestBody EntregaInput entregaInput) {
+		//A classe de dominio não fica sabendo nada da classe da API
+		Entrega newEntrega = entregaAssembler.toEntity(entregaInput); 
+		return entregaAssembler.toModel(entregaservice.solicitar(newEntrega));
 	}
 	
 	@GetMapping
