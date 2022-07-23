@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.validation.Valid;
 
+import com.solebac.alglog.api.controller.domain.model.dto.input.DestinatarioInput;
 import com.sun.istack.NotNull;
 
 public class EntregaInput {

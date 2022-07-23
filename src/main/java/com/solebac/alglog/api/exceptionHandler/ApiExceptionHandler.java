@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.solebac.alglog.api.controller.domain.exception.EntidadeNotFoundException;
 import com.solebac.alglog.api.controller.domain.exception.NegocioException;
 
 @ControllerAdvice
@@ -50,6 +51,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<Object> handleNegocio(NegocioException ex, WebRequest request){
 		HttpStatus status = HttpStatus.BAD_REQUEST;
+		Problema obj = new Problema();
+		obj.setStatus(status.value());
+		obj.setDataHora(LocalDateTime.now());
+		obj.setTitulo(ex.getMessage());
+		return handleExceptionInternal(ex, obj, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler(EntidadeNotFoundException.class)
+	public ResponseEntity<Object> handleEntidadeNotFound(EntidadeNotFoundException ex, WebRequest request){
+		HttpStatus status = HttpStatus.NOT_FOUND;
 		Problema obj = new Problema();
 		obj.setStatus(status.value());
 		obj.setDataHora(LocalDateTime.now());

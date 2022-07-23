@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,7 +37,7 @@ public class Entrega {
 	private OffsetDateTime dataPedido;
 	private OffsetDateTime dataFinalizacao;
 	
-	@OneToMany(mappedBy = "entrega")
+	@OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
 	private Set<Ocorrencia> ocorrencias = new HashSet<>();
 		
 	public Entrega(Long id, Cliente cliente, Destinatario destinatario, BigDecimal taxa, StatusEntrega status,

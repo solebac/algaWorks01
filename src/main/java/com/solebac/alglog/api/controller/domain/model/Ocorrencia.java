@@ -2,6 +2,7 @@ package com.solebac.alglog.api.controller.domain.model;
 
 import java.time.OffsetDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Ocorrencia {
 	private Entrega entrega;
 	
 	private String descricao;
+	@Column(name = "data_registro")
 	private OffsetDateTime dataRegistro;
 	
 	public Ocorrencia() {

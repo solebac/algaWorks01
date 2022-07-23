@@ -1,4 +1,4 @@
-package com.solebac.alglog.api.controller.domain.model.dto;
+package com.solebac.alglog.api.controller.domain.model.dto.input;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
