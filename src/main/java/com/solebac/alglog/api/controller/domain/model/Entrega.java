@@ -96,6 +96,14 @@ public class Entrega {
 	public void setDataFinalizacao(OffsetDateTime dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
 	}
+	public Set<Ocorrencia> getOcorrencias() {
+		return ocorrencias;
+	}
+
+	public void setOcorrencias(Set<Ocorrencia> ocorrencias) {
+		this.ocorrencias = ocorrencias;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -103,6 +111,7 @@ public class Entrega {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -118,6 +127,18 @@ public class Entrega {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+
+	public Ocorrencia adicionarOcorrencia(String descricao) {
+		// Method de negocio
+		Ocorrencia ocorrencia = new Ocorrencia();
+		ocorrencia.setDescricao(descricao);
+		ocorrencia.setDataRegistro(OffsetDateTime.now());
+		ocorrencia.setEntrega(this);
+		
+		this.getOcorrencias().add(ocorrencia);
+		return ocorrencia;
 	}
 	
 	
