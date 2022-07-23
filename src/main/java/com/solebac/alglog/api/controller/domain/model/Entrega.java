@@ -2,6 +2,8 @@ package com.solebac.alglog.api.controller.domain.model;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -11,15 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import javax.validation.Valid;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.solebac.alglog.api.controller.domain.ValidationGroups;
-import com.sun.istack.NotNull;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Entrega {
@@ -42,6 +36,8 @@ public class Entrega {
 	private OffsetDateTime dataPedido;
 	private OffsetDateTime dataFinalizacao;
 	
+	@OneToMany(mappedBy = "entrega")
+	private Set<Ocorrencia> ocorrencias = new HashSet<>();
 		
 	public Entrega(Long id, Cliente cliente, Destinatario destinatario, BigDecimal taxa, StatusEntrega status,
 			OffsetDateTime dataPedido, OffsetDateTime dataFinalizacao) {
