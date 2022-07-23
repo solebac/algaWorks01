@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.solebac.alglog.api.controller.domain.exception.NegocioException;
+
 @Entity
 public class Entrega {
 	
@@ -141,7 +143,20 @@ public class Entrega {
 		this.getOcorrencias().add(ocorrencia);
 		return ocorrencia;
 	}
+
+	public void finalizar() {
+		if (naoPodeSerFinalizado()) {
+			throw new NegocioException("Entrega não pode ser finalizada.");
+		}
+		setStatus(StatusEntrega.FINALIZADA);
+		setDataFinalizacao(OffsetDateTime.now());
+	}
+	public boolean podeSerFinalizado() {
+		return StatusEntrega.PENDENTE.equals(getStatus());
+	}
 	
-	
+	public boolean naoPodeSerFinalizado() {
+		return !podeSerFinalizado();
+	}
 
 }
